@@ -35,13 +35,10 @@ func (il IntList) Length() int {
 
 // Filter reduce the list of all items for which predicate(item) is True
 func (il IntList) Filter(fn predFunc) IntList {
-	list := make(IntList, 0, il.Length())
-	y := 0
+	list := make(IntList, 0)
 	for _, i := range il {
 		if fn(i) {
-			list = list[:y+1]
-			list[y] = i
-			y++
+			list = append(list, i)
 		}
 	}
 	return list
@@ -49,10 +46,11 @@ func (il IntList) Filter(fn predFunc) IntList {
 
 // Map maps the collection items with given
 func (il IntList) Map(fn unaryFunc) IntList {
-	for i, val := range il {
-		il[i] = fn(val)
+	result := make(IntList, 0)
+	for _, val := range il {
+		result = append(result, fn(val))
 	}
-	return il
+	return result
 }
 
 // Append merge two lists together
@@ -77,9 +75,12 @@ func (il IntList) Concat(lists []IntList) IntList {
 
 // Reverse returns a list with all the original items, but in reversed order
 func (il IntList) Reverse() IntList {
-	for i, j := 0, il.Length()-1; i < j; i++ {
-		il[i], il[j] = il[j], il[i]
-		j--
+	if il.Length() == 0 {
+		return []int{}
 	}
-	return il
+	result := make(IntList, 0)
+	for i := il.Length(); i > 0; i-- {
+		result = append(result, il[i-1])
+	}
+	return result
 }

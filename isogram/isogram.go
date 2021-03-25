@@ -1,23 +1,21 @@
 // Package isogram determines if a word or phrase is an isogram.
 package isogram
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+)
 
 // IsIsogram checks whether given word isogram or not
 func IsIsogram(word string) bool {
-	m := make(map[string]int)
+	m := make(map[rune]int)
 	for _, r := range word {
-		s := string(r)
-		s = strings.ToLower(s)
-		if s == "-" || s == "_" || s == " " {
+		r = unicode.ToLower(r)
+		if strings.ContainsRune("-", r) || strings.ContainsRune(" ", r) {
 			continue
 		}
-		if val, ok := m[s]; ok {
-			m[s] = val + 1
-		} else {
-			m[s] = 1
-		}
-		if m[s] > 1 {
+		m[r] += 1
+		if m[r] > 1 {
 			return false
 		}
 	}
