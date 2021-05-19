@@ -9,7 +9,7 @@ func Square(n int) (uint64, error) {
 		return 0, errors.New("number must be between 1 and 64")
 	}
 
-	return (1 << uint(n-1)), nil
+	return (1<<n - 1), nil
 }
 
 // Total returns the number of grains of rice on the entire chessboard
